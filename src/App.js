@@ -77,16 +77,31 @@ function PhoneBook() {
   const [msg, setMsg] = useState('');
 
   // جلب البيانات عند تحميل الصفحة لأول مرة
+ 
+  const NEON_API_URL = "https://ep-odd-art-aima7j0b.apirest.c-4.us-east-1.aws.neon.tech/neondb/rest/v1";
+  // دالة جلب البيانات
+  const fetchData = async () => {
+    setMsg('جاري تحميل البيانات...');
+    try {
+      // نستخدم رابط Neon مباشرة كما في الصورة
+      const res = await axios.get(`${NEON_API_URL}/contacts`, {
+        headers: {
+          // إذا كان لديك API Key من Neon يجب وضعه هنا
+          // 'Authorization': `Bearer ${process.env.REACT_APP_NEON_TOKEN}`
+        }
+      });
+      
+      setList(res.data);
+      setMsg('');
+    } catch (err) {
+      console.error("خطأ في الاتصال:", err);
+      setMsg('فشل جلب البيانات. تأكد من إعدادات الـ API في Neon');
+    }
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(`${API_URL}/contacts`);
-      setList(res.data);
-    } catch (err) { setMsg('خطأ في جلب البيانات'); }
-  };
 
   const handleSave = async () => {
     try {
