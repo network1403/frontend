@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-route
 // const cors = require('cors');
 // app.use(cors());
 
-const API_URL = 'https://backend-3t9u.onrender.com';
+const API_URL = 'https://backend-3t9u.onrender.com' || "http://localhost:5000";;
 
 // --- 1. صفحة تسجيل الدخول وإنشاء الحساب ---
 function Login() {
