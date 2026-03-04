@@ -1,6 +1,3 @@
-// https://backend-3t9u.onrender.com
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
