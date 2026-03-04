@@ -1,10 +1,13 @@
+// https://backend-3t9u.onrender.com
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 // const cors = require('cors');
 // app.use(cors());
 
-const API_URL = 'https://backend-3t9u.onrender.com' || "http://localhost:5000";;
+const API_URL = 'https://backend-3t9u.onrender.com';
 
 // --- 1. صفحة تسجيل الدخول وإنشاء الحساب ---
 function Login() {
@@ -74,27 +77,16 @@ function PhoneBook() {
   const [msg, setMsg] = useState('');
 
   // جلب البيانات عند تحميل الصفحة لأول مرة
-  const fetchData = async () => {
-    setMsg('جاري تحميل البيانات...'); // رسالة للمستخدم أثناء انتظار استيقاظ السيرفر
-    try {
-      // نضع timeout لأن سيرفرات Render المجانية تأخذ وقتاً للاستيقاظ
-      const res = await axios.get(`${API_URL}/contacts`, { timeout: 10000 });
-      setList(res.data);
-      setMsg(''); // مسح رسالة الخطأ عند النجاح
-    } catch (err) {
-      console.error("Fetch Error:", err);
-      
-      if (err.code === 'ECONNABORTED') {
-        setMsg('السيرفر يستغرق وقتاً للاستيقاظ، يرجى تحديث الصفحة بعد لحظات');
-      } else {
-        setMsg('خطأ في جلب البيانات: تأكد من رابط الـ API');
-      }
-    }
-  };
-
   useEffect(() => {
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`${API_URL}/contacts`);
+      setList(res.data);
+    } catch (err) { setMsg('خطأ في جلب البيانات'); }
+  };
 
   const handleSave = async () => {
     try {
