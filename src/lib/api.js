@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+
+const baseURL = import.meta.env.VITE_API_URL || '/api';
+
 const api = axios.create({
   baseURL: '/api',
   timeout: 15000,
@@ -40,7 +43,8 @@ api.interceptors.response.use(
       try {
         const stored = JSON.parse(localStorage.getItem('quizzer-auth') || '{}');
         const refreshToken = stored?.state?.refreshToken;
-        const { data } = await axios.post('/api/auth/refresh', { refreshToken });
+        // const { data } = await axios.post('/api/auth/refresh', { refreshToken });
+        const { data } = await axios.post(`${baseURL}/auth/refresh`, { refreshToken });
 
         // Update store
         const current = JSON.parse(localStorage.getItem('quizzer-auth') || '{}');
